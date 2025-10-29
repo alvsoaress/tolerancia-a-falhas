@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  imd-travel:
+    build: ./imd-travel
+    ports:
+      - "8080:8080"
+    environment:
+      - AIRLINES_HUB_URL=http://airlines-hub:8081
+      - EXCHANGE_URL=http://exchange:8082
+      - FIDELITY_URL=http://fidelity:8083
+    depends_on:
+      - airlines-hub
+      - exchange
+      - fidelity
+
+  airlines-hub:
+    build: ./airlines-hub
+    ports:
+      - "8081:8081"
+
+  exchange:
+    build: ./exchange
+    ports:
+      - "8082:8082"
+
+  fidelity:
+    build: ./fidelity
+    ports:
+      - "8083:8083"
+
+networks:
+  default:
+    name: travel-network
