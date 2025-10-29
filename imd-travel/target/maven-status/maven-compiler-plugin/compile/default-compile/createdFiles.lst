@@ -1,0 +1,13 @@
+com\tolerancia\falhas\imdtravel\ImdTravelApplication.class
+com\tolerancia\falhas\imdtravel\dto\TransactionResponse.class
+com\tolerancia\falhas\imdtravel\dto\BuyTicketResponse.class
+com\tolerancia\falhas\imdtravel\service\FidelityService$BonusRequest.class
+com\tolerancia\falhas\imdtravel\service\AirlinesHubService.class
+com\tolerancia\falhas\imdtravel\dto\BuyTicketRequest.class
+com\tolerancia\falhas\imdtravel\service\ExchangeService.class
+com\tolerancia\falhas\imdtravel\dto\FlightInfo.class
+com\tolerancia\falhas\imdtravel\service\FidelityService.class
+com\tolerancia\falhas\imdtravel\service\AirlinesHubService$SellRequest.class
+com\tolerancia\falhas\imdtravel\config\RestTemplateConfig.class
+com\tolerancia\falhas\imdtravel\controller\TicketController.class
+com\tolerancia\falhas\imdtravel\service\TicketService.class

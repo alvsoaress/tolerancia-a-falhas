@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: imd-travel
+
+airlines:
+  hub:
+    url: ${AIRLINES_HUB_URL:http://localhost:8081}
+
+exchange:
+  url: ${EXCHANGE_URL:http://localhost:8082}
+
+fidelity:
+  url: ${FIDELITY_URL:http://localhost:8083}
+
+logging:
+  level:
+    com.tolerancia.falhas.imdtravel: DEBUG
