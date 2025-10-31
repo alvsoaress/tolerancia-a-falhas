@@ -1,0 +1,6 @@
+com\tolerancia\falhas\airlineshub\dto\FlightInfo.class
+com\tolerancia\falhas\airlineshub\controller\FlightController.class
+com\tolerancia\falhas\airlineshub\dto\SellRequest.class
+com\tolerancia\falhas\airlineshub\AirlinesHubApplication.class
+com\tolerancia\falhas\airlineshub\dto\TransactionResponse.class
+com\tolerancia\falhas\airlineshub\service\FlightService.class
