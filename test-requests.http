@@ -1,0 +1,46 @@
+### Teste do Sistema de Microsserviços Travel
+
+### 1. Teste de compra de passagem
+POST http://localhost:8080/api/buyTicket
+Content-Type: application/json
+
+{
+  "flight": "AA123",
+  "day": "2024-01-15",
+  "user": 123
+}
+
+### 2. Teste com voo diferente
+POST http://localhost:8080/api/buyTicket
+Content-Type: application/json
+
+{
+  "flight": "BB456",
+  "day": "2024-01-16",
+  "user": 456
+}
+
+### 3. Teste com voo inexistente (será criado automaticamente)
+POST http://localhost:8080/api/buyTicket
+Content-Type: application/json
+
+{
+  "flight": "NEW999",
+  "day": "2024-01-20",
+  "user": 789
+}
+
+### 4. Teste direto do AirlinesHub - Consultar voo
+GET http://localhost:8081/api/flight?flight=AA123&day=2024-01-15
+
+### 5. Teste direto do Exchange - Obter taxa de conversão
+GET http://localhost:8082/api/convert
+
+### 6. Teste direto do Fidelity - Adicionar bônus
+POST http://localhost:8083/api/bonus
+Content-Type: application/json
+
+{
+  "user": 123,
+  "bonus": 100
+}
