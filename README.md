@@ -82,3 +82,18 @@ curl -X POST http://localhost:8080/api/buyTicket \
 
 ### Fidelity (8083)
 - `POST /api/bonus` - Adiciona pontos de fidelidade
+
+## Simulação de Falhas
+
+Cada requisição do fluxo possui injeção de falhas probabilísticas para simular cenários adversos:
+
+- **Request 1 – AirlinesHub `/api/flight`**  
+  `Fail (Omission, 0.2, 0s)` – 20% de chance de o serviço omitir a resposta e retornar `503 Service Unavailable`.
+- **Request 2 – Exchange `/api/convert`**  
+  `Fail (Error, 0.1, 5s)` – 10% de chance de iniciar uma janela de 5 segundos retornando `500 Internal Server Error`.
+- **Request 3 – AirlinesHub `/api/sell`**  
+  `Fail (Time=5s, 0.1, 10s)` – 10% de chance de iniciar uma janela de 10 segundos em que cada requisição é atrasada em 5 segundos.
+- **Request 4 – Fidelity `/api/bonus`**  
+  `Fail (Crash, 0.02, _)` – 2% de chance de simular um crash definitivo do serviço (o processo é encerrado).
+
+Essas falhas permanecem ativas mesmo em execução dentro de containers Docker, permitindo testar resiliência, timeouts e estratégias de retry.
