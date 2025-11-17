@@ -18,4 +18,6 @@ public class BuyTicketRequest {
     
     @NotNull(message = "User ID is required")
     private Long user;
+
+    private Boolean ft = Boolean.FALSE;
 }
