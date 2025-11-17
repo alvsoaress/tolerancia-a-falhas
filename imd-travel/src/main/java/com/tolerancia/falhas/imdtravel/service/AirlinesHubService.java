@@ -32,6 +32,32 @@ public class AirlinesHubService {
         String url = baseUrl + "/api/sell";
         return restTemplate.postForObject(url, new SellRequest(flight, day), TransactionResponse.class);
     }
+
+    public FlightInfo getFlightInfoWithRetry(String flight, String day, boolean ftEnabled) {
+        if (!ftEnabled) return getFlightInfo(flight, day);
+        RuntimeException last = null;
+        for (int attempt = 1; attempt <= 3; attempt++) {
+            try {
+                return getFlightInfo(flight, day);
+            } catch (RuntimeException ex) {
+                last = ex;
+                try { Thread.sleep(200L * attempt); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
+            }
+        }
+        // Fallback: synthesize reasonable value to proceed
+        return new FlightInfo(flight, day, 600.0);
+    }
+
+    public TransactionResponse sellTicketWithTimeout(String flight, String day, boolean ftEnabled) {
+        if (!ftEnabled) return sellTicket(flight, day);
+        // Create short-timeout RestTemplate to enforce 2s SLA
+        org.springframework.http.client.SimpleClientHttpRequestFactory rf = new org.springframework.http.client.SimpleClientHttpRequestFactory();
+        rf.setConnectTimeout(1000);
+        rf.setReadTimeout(2000);
+        RestTemplate rt = new RestTemplate(rf);
+        String url = baseUrl + "/api/sell";
+        return rt.postForObject(url, new SellRequest(flight, day), TransactionResponse.class);
+    }
     
     @lombok.Data
     @lombok.NoArgsConstructor
