@@ -19,6 +19,16 @@ public class FidelityService {
         String url = baseUrl + "/api/bonus";
         restTemplate.postForObject(url, new BonusRequest(userId, bonus), Void.class);
     }
+
+    public void addBonusNonBlocking(Long userId, Integer bonus, boolean ftEnabled) {
+        if (!ftEnabled) { addBonus(userId, bonus); return; }
+        new Thread(() -> {
+            try {
+                addBonus(userId, bonus);
+            } catch (Exception ignored) {
+            }
+        }, "bonus-dispatcher").start();
+    }
     
     @lombok.Data
     @lombok.NoArgsConstructor

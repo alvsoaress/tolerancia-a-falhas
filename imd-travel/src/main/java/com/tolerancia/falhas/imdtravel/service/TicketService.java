@@ -21,11 +21,13 @@ public class TicketService {
     
     public BuyTicketResponse buyTicket(BuyTicketRequest request) {
         try {
-            FlightInfo flightInfo = airlinesHubService.getFlightInfo(request.getFlight(), request.getDay());
-            Double exchangeRate = exchangeService.getExchangeRate();
+            boolean ft = Boolean.TRUE.equals(request.getFt());
+
+            FlightInfo flightInfo = airlinesHubService.getFlightInfoWithRetry(request.getFlight(), request.getDay(), ft);
+            Double exchangeRate = exchangeService.getExchangeRateWithFallback(ft);
             Double convertedValue = flightInfo.getValue() * exchangeRate;
-            TransactionResponse transactionResponse = airlinesHubService.sellTicket(request.getFlight(), request.getDay());
-            fidelityService.addBonus(request.getUser(), convertedValue.intValue());
+            TransactionResponse transactionResponse = airlinesHubService.sellTicketWithTimeout(request.getFlight(), request.getDay(), ft);
+            fidelityService.addBonusNonBlocking(request.getUser(), convertedValue.intValue(), ft);
             
             return new BuyTicketResponse(
                 true,
